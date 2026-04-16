@@ -61,7 +61,7 @@
         .card {
             background: var(--card);
             border-radius: 20px;
-            padding: 18px 14px;
+            padding: 20px 16px;
             text-align: center;
             transition: transform 0.2s;
         }
@@ -133,6 +133,45 @@
         li {
             margin: 7px 0;
         }
+
+        /* Модальное окно покупки токенов */
+        .modal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            border-radius: 20px;
+            padding: 24px;
+            width: 90%;
+            max-width: 360px;
+        }
+
+        .modal input {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            background: #2a2a2a;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            margin: 16px 0;
+            text-align: center;
+        }
+
+        .modal .total {
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+            margin: 12px 0;
+            color: var(--accent);
+        }
     </style>
 </head>
 <body>
@@ -148,7 +187,7 @@
             <div style="color: var(--secondary);">FREE тариф</div>
         </div>
         <div>
-            <button onclick="showProfile()" class="btn-secondary">Профиль</button>
+            <button onclick="showProfile()" class="btn-secondary" style="padding: 10px 18px; font-size: 15px;">Профиль</button>
         </div>
     </div>
 
@@ -158,14 +197,14 @@
             <div style="font-size: 36px; margin-bottom: 8px;">⚡</div>
             <div>Купить токены</div>
         </div>
-        <div class="card" onclick="showProfile()">
-            <div style="font-size: 36px; margin-bottom: 8px;">👤</div>
-            <div>Мой профиль</div>
+        <div class="card" onclick="showTariffs()">
+            <div style="font-size: 36px; margin-bottom: 8px;">⭐</div>
+            <div>Тарифы</div>
         </div>
     </div>
 
     <!-- Тарифы -->
-    <div style="font-size: 18px; color: var(--secondary); margin: 20px 0 12px;">Выберите тариф</div>
+    <div style="font-size: 18px; color: var(--secondary); margin: 20px 0 12px;">Тарифы</div>
 
     <!-- START -->
     <div class="tariff-card">
@@ -178,8 +217,7 @@
         </ul>
         <p style="color: #ff6b6b; font-size: 14px;">
             Нет генерации изображений<br>
-            Нет генерации файлов<br>
-            Ограниченный доступ к продвинутым функциям
+            Нет генерации файлов
         </p>
         <button onclick="buySubscription('start')" class="btn-primary">Купить START</button>
     </div>
@@ -220,11 +258,64 @@
         <button onclick="buySubscription('max')" class="btn-primary">Купить MAX</button>
     </div>
 
+    <!-- Модальное окно покупки токенов -->
+    <div class="modal" id="tokenModal">
+        <div class="modal-content">
+            <h2 style="text-align:center; margin-bottom: 20px;">Купить токены</h2>
+            <p style="text-align:center; color: var(--secondary); margin-bottom: 16px;">
+                Минимум 100 токенов<br>
+                100 токенов = 199 ₽
+            </p>
+            
+            <input type="number" id="tokenAmount" placeholder="Количество токенов" min="100" value="100" oninput="calculateTotal()">
+            
+            <div class="total" id="totalPrice">199 ₽</div>
+            
+            <button onclick="confirmTokenPurchase()" class="btn-primary" id="buyButton">Купить за 199 ₽</button>
+            <button onclick="closeModal()" class="btn-secondary" style="margin-top: 8px;">Отмена</button>
+        </div>
+    </div>
+
     <script>
         const tg = Telegram.WebApp;
         tg.ready();
         tg.expand();
         tg.setHeaderColor("secondary_bg_color");
+
+        let currentAmount = 100;
+
+        function calculateTotal() {
+            let amount = parseInt(document.getElementById('tokenAmount').value) || 100;
+            if (amount < 100) amount = 100;
+            
+            currentAmount = amount;
+            const total = Math.ceil((amount / 100) * 199);
+            
+            document.getElementById('totalPrice').textContent = `${total} ₽`;
+            document.getElementById('buyButton').textContent = `Купить за ${total} ₽`;
+        }
+
+        function buyTokens() {
+            document.getElementById('tokenModal').style.display = 'flex';
+            calculateTotal();
+        }
+
+        function closeModal() {
+            document.getElementById('tokenModal').style.display = 'none';
+        }
+
+        function confirmTokenPurchase() {
+            const amount = currentAmount;
+            const price = Math.ceil((amount / 100) * 199);
+            
+            tg.sendData(JSON.stringify({
+                action: "buy_tokens",
+                amount: amount,
+                price: price
+            }));
+            
+            closeModal();
+        }
 
         function buySubscription(tariff) {
             let price = 0;
@@ -239,13 +330,14 @@
             }));
         }
 
-        function buyTokens() {
-            tg.sendData(JSON.stringify({ action: "buy_tokens" }));
-        }
-
         function showProfile() {
             tg.sendData(JSON.stringify({ action: "show_profile" }));
         }
+
+        // Закрытие модального окна при клике вне его
+        document.getElementById('tokenModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
     </script>
 </body>
 </html>
