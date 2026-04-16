@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Syntax AI</title>
+    <title>SmartHelper AI</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
@@ -11,7 +11,7 @@
             --card: #121212;
             --accent: #00ff9d;
             --text: #ffffff;
-            --secondary: #888888;
+            --secondary: #aaaaaa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -22,7 +22,6 @@
             font-family: system-ui, -apple-system, sans-serif;
             min-height: 100vh;
             padding: 16px;
-            line-height: 1.4;
         }
 
         .header {
@@ -31,10 +30,10 @@
         }
 
         .logo {
-            font-size: 42px;
+            font-size: 38px;
             font-weight: 800;
-            letter-spacing: -2px;
-            margin-bottom: 4px;
+            letter-spacing: -1px;
+            color: #00ff9d;
         }
 
         .balance {
@@ -62,18 +61,13 @@
         .card {
             background: var(--card);
             border-radius: 20px;
-            padding: 20px 16px;
+            padding: 18px 14px;
             text-align: center;
             transition: transform 0.2s;
         }
 
         .card:active {
-            transform: scale(0.95);
-        }
-
-        .card-icon {
-            font-size: 32px;
-            margin-bottom: 12px;
+            transform: scale(0.96);
         }
 
         .tariff-card {
@@ -81,6 +75,32 @@
             border-radius: 20px;
             padding: 20px;
             margin-bottom: 20px;
+            position: relative;
+        }
+
+        .popular {
+            position: absolute;
+            top: -10px;
+            right: 16px;
+            background: #00ff9d;
+            color: #000;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 4px 14px;
+            border-radius: 20px;
+        }
+
+        .tariff-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .price {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 12px;
         }
 
         button {
@@ -90,8 +110,7 @@
             font-weight: 600;
             border: none;
             border-radius: 16px;
-            margin-top: 12px;
-            cursor: pointer;
+            margin-top: 16px;
         }
 
         .btn-primary {
@@ -104,18 +123,22 @@
             color: white;
         }
 
-        .section-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin: 20px 0 12px;
+        ul {
+            text-align: left;
+            padding-left: 20px;
+            margin: 12px 0 16px;
             color: var(--secondary);
+        }
+
+        li {
+            margin: 7px 0;
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="logo">SYNTX</div>
-        <p style="color: #00ff9d; font-weight: 500;">AI Помощник</p>
+        <div class="logo">SmartHelper AI</div>
+        <p style="color: #00ff9d; margin-top: 4px;">Твой личный AI-помощник</p>
     </div>
 
     <!-- Баланс -->
@@ -124,57 +147,77 @@
             <div class="balance-amount">0.00 ⚡</div>
             <div style="color: var(--secondary);">FREE тариф</div>
         </div>
-        <div style="text-align: right;">
+        <div>
             <button onclick="showProfile()" class="btn-secondary">Профиль</button>
         </div>
     </div>
 
-    <!-- Быстрые кнопки -->
+    <!-- Быстрые действия -->
     <div class="grid">
-        <div class="card" onclick="buySubscription('basic')">
-            <div class="card-icon">⭐</div>
-            <div>Подписка</div>
-            <small style="color: var(--secondary);">BASIC • PRO</small>
-        </div>
         <div class="card" onclick="buyTokens()">
-            <div class="card-icon">⚡</div>
-            <div>Токены</div>
-            <small style="color: var(--secondary);">Купить пакеты</small>
+            <div style="font-size: 36px; margin-bottom: 8px;">⚡</div>
+            <div>Купить токены</div>
+        </div>
+        <div class="card" onclick="showProfile()">
+            <div style="font-size: 36px; margin-bottom: 8px;">👤</div>
+            <div>Мой профиль</div>
         </div>
     </div>
 
-    <!-- Тариф BASIC -->
+    <!-- Тарифы -->
+    <div style="font-size: 18px; color: var(--secondary); margin: 20px 0 12px;">Выберите тариф</div>
+
+    <!-- START -->
     <div class="tariff-card">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h2>BASIC</h2>
-            <span style="background: #00ff9d; color: #000; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 600;">Популярный</span>
-        </div>
-        <p style="margin: 12px 0; font-size: 28px; font-weight: 700;">890 ₽</p>
-        <p style="color: var(--secondary); margin-bottom: 16px;">
-            260 токенов • Доступ к Midjourney, Kling, Nano и др.
+        <div class="tariff-name">START</div>
+        <div class="price">590 ₽</div>
+        <ul>
+            <li>• 100 текстовых запросов</li>
+            <li>• 3 анализа фото</li>
+            <li>• 1 анализ файла</li>
+        </ul>
+        <p style="color: #ff6b6b; font-size: 14px;">
+            Нет генерации изображений<br>
+            Нет генерации файлов<br>
+            Ограниченный доступ к продвинутым функциям
         </p>
-        <button onclick="buySubscription('basic')" class="btn-primary">Купить BASIC</button>
+        <button onclick="buySubscription('start')" class="btn-primary">Купить START</button>
     </div>
 
-    <!-- Дополнительные разделы -->
-    <div class="section-title">Полезное</div>
-    <div class="grid">
-        <div class="card" onclick="openSection('faq')">
-            <div class="card-icon">❔</div>
-            <div>FAQ</div>
-        </div>
-        <div class="card" onclick="openSection('guides')">
-            <div class="card-icon">📖</div>
-            <div>Гайды</div>
-        </div>
-        <div class="card" onclick="openSection('news')">
-            <div class="card-icon">📰</div>
-            <div>Новости</div>
-        </div>
-        <div class="card" onclick="openSection('support')">
-            <div class="card-icon">💬</div>
-            <div>Поддержка</div>
-        </div>
+    <!-- PRO -->
+    <div class="tariff-card">
+        <div class="tariff-name">PRO</div>
+        <div class="price">990 ₽</div>
+        <ul>
+            <li>• 250 текстовых запросов</li>
+            <li>• 15 анализов фото</li>
+            <li>• 5 анализов файлов</li>
+            <li>• 5 генераций изображений</li>
+            <li>• 2 генерации файлов</li>
+        </ul>
+        <p style="color: var(--accent); font-size: 14px;">
+            Доступ ко всем основным функциям<br>
+            Приоритет ответов
+        </p>
+        <button onclick="buySubscription('pro')" class="btn-primary">Купить PRO</button>
+    </div>
+
+    <!-- MAX -->
+    <div class="tariff-card">
+        <div class="popular">Популярный</div>
+        <div class="tariff-name">MAX</div>
+        <div class="price">1490 ₽</div>
+        <ul>
+            <li>• 400 текстовых запросов</li>
+            <li>• 25 анализов фото</li>
+            <li>• 8 анализов файлов</li>
+            <li>• 10 генераций изображений</li>
+        </ul>
+        <p style="color: var(--accent); font-size: 14px;">
+            Полный доступ ко всем функциям<br>
+            Максимальный приоритет
+        </p>
+        <button onclick="buySubscription('max')" class="btn-primary">Купить MAX</button>
     </div>
 
     <script>
@@ -183,14 +226,16 @@
         tg.expand();
         tg.setHeaderColor("secondary_bg_color");
 
-        // Получаем данные пользователя
-        const user = tg.initDataUnsafe?.user || {};
-        
         function buySubscription(tariff) {
+            let price = 0;
+            if (tariff === 'start') price = 590;
+            else if (tariff === 'pro') price = 990;
+            else if (tariff === 'max') price = 1490;
+
             tg.sendData(JSON.stringify({
                 action: "buy_subscription",
                 tariff: tariff,
-                price: tariff === "basic" ? 890 : 0
+                price: price
             }));
         }
 
@@ -201,13 +246,6 @@
         function showProfile() {
             tg.sendData(JSON.stringify({ action: "show_profile" }));
         }
-
-        function openSection(section) {
-            tg.sendData(JSON.stringify({ action: "open_section", section: section }));
-        }
-
-        // Показываем приветствие
-        console.log("Mini App запущено для пользователя:", user.first_name);
     </script>
 </body>
 </html>
