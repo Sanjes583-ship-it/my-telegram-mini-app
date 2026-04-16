@@ -3,88 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI Помощник</title>
+    <title>Syntax AI</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        :root {
+            --bg: #0a0a0a;
+            --card: #121212;
+            --accent: #00ff9d;
+            --text: #ffffff;
+            --secondary: #888888;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            background: var(--tg-theme-bg-color, #1e1e1e);
-            color: var(--tg-theme-text-color, #ffffff);
+            background: var(--bg);
+            color: var(--text);
             font-family: system-ui, -apple-system, sans-serif;
-            margin: 0;
-            padding: 20px;
             min-height: 100vh;
+            padding: 16px;
+            line-height: 1.4;
+        }
+
+        .header {
             text-align: center;
+            margin-bottom: 24px;
         }
-        h1 {
-            margin: 30px 0 10px;
-            font-size: 28px;
+
+        .logo {
+            font-size: 42px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 4px;
         }
-        .user-info {
-            font-size: 18px;
-            margin: 20px 0;
-            padding: 15px;
-            background: var(--tg-theme-secondary-bg-color, #2d2d2d);
-            border-radius: 12px;
+
+        .balance {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 18px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
         }
+
+        .balance-amount {
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 20px 16px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .card:active {
+            transform: scale(0.95);
+        }
+
+        .card-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .tariff-card {
+            background: linear-gradient(145deg, #1a1a1a, #121212);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
         button {
-            padding: 16px 40px;
-            font-size: 18px;
+            width: 100%;
+            padding: 16px;
+            font-size: 17px;
             font-weight: 600;
             border: none;
-            border-radius: 12px;
-            background: var(--tg-theme-button-color, #2481cc);
-            color: var(--tg-theme-button-text-color, #ffffff);
-            margin-top: 30px;
-            width: 100%;
-            max-width: 300px;
+            border-radius: 16px;
+            margin-top: 12px;
+            cursor: pointer;
         }
-        button:active {
-            opacity: 0.8;
+
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .btn-secondary {
+            background: #2a2a2a;
+            color: white;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 20px 0 12px;
+            color: var(--secondary);
         }
     </style>
 </head>
 <body>
-    <h1>🚀 AI Помощник</h1>
-    
-    <div class="user-info" id="user-info">
-        Загрузка информации...
+    <div class="header">
+        <div class="logo">SYNTX</div>
+        <p style="color: #00ff9d; font-weight: 500;">AI Помощник</p>
     </div>
 
-    <p>Это твоё Telegram Mini App</p>
+    <!-- Баланс -->
+    <div class="balance">
+        <div>
+            <div class="balance-amount">0.00 ⚡</div>
+            <div style="color: var(--secondary);">FREE тариф</div>
+        </div>
+        <div style="text-align: right;">
+            <button onclick="showProfile()" class="btn-secondary">Профиль</button>
+        </div>
+    </div>
 
-    <button onclick="sendDataToBot()">Отправить данные в бот</button>
+    <!-- Быстрые кнопки -->
+    <div class="grid">
+        <div class="card" onclick="buySubscription('basic')">
+            <div class="card-icon">⭐</div>
+            <div>Подписка</div>
+            <small style="color: var(--secondary);">BASIC • PRO</small>
+        </div>
+        <div class="card" onclick="buyTokens()">
+            <div class="card-icon">⚡</div>
+            <div>Токены</div>
+            <small style="color: var(--secondary);">Купить пакеты</small>
+        </div>
+    </div>
+
+    <!-- Тариф BASIC -->
+    <div class="tariff-card">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>BASIC</h2>
+            <span style="background: #00ff9d; color: #000; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 600;">Популярный</span>
+        </div>
+        <p style="margin: 12px 0; font-size: 28px; font-weight: 700;">890 ₽</p>
+        <p style="color: var(--secondary); margin-bottom: 16px;">
+            260 токенов • Доступ к Midjourney, Kling, Nano и др.
+        </p>
+        <button onclick="buySubscription('basic')" class="btn-primary">Купить BASIC</button>
+    </div>
+
+    <!-- Дополнительные разделы -->
+    <div class="section-title">Полезное</div>
+    <div class="grid">
+        <div class="card" onclick="openSection('faq')">
+            <div class="card-icon">❔</div>
+            <div>FAQ</div>
+        </div>
+        <div class="card" onclick="openSection('guides')">
+            <div class="card-icon">📖</div>
+            <div>Гайды</div>
+        </div>
+        <div class="card" onclick="openSection('news')">
+            <div class="card-icon">📰</div>
+            <div>Новости</div>
+        </div>
+        <div class="card" onclick="openSection('support')">
+            <div class="card-icon">💬</div>
+            <div>Поддержка</div>
+        </div>
+    </div>
 
     <script>
-        const tg = window.Telegram.WebApp;
+        const tg = Telegram.WebApp;
         tg.ready();
-        tg.expand();                    // Растянуть на весь экран
+        tg.expand();
+        tg.setHeaderColor("secondary_bg_color");
 
         // Получаем данные пользователя
         const user = tg.initDataUnsafe?.user || {};
-        document.getElementById('user-info').innerHTML = `
-            Привет, <strong>${user.first_name || 'Пользователь'}</strong>!<br>
-            ID: ${user.id || '—'}<br>
-            Username: @${user.username || '—'}
-        `;
-
-        function sendDataToBot() {
-            const data = {
-                action: "mini_app_opened",
-                user_id: user.id,
-                message: "Я открыл мини-приложение из боковой кнопки!",
-                time: new Date().toISOString()
-            };
-            
-            tg.sendData(JSON.stringify(data));
-            tg.showPopup({
-                title: "Успешно!",
-                message: "Данные отправлены в бот",
-                buttons: [{type: "close"}]
-            });
+        
+        function buySubscription(tariff) {
+            tg.sendData(JSON.stringify({
+                action: "buy_subscription",
+                tariff: tariff,
+                price: tariff === "basic" ? 890 : 0
+            }));
         }
 
-        // Адаптация под тему Telegram
-        tg.setHeaderColor("secondary_bg_color");
+        function buyTokens() {
+            tg.sendData(JSON.stringify({ action: "buy_tokens" }));
+        }
+
+        function showProfile() {
+            tg.sendData(JSON.stringify({ action: "show_profile" }));
+        }
+
+        function openSection(section) {
+            tg.sendData(JSON.stringify({ action: "open_section", section: section }));
+        }
+
+        // Показываем приветствие
+        console.log("Mini App запущено для пользователя:", user.first_name);
     </script>
 </body>
 </html>
