@@ -7,11 +7,11 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --bg: #0a0a0a;
-            --card: #121212;
-            --accent: #00ff9d;
-            --text: #ffffff;
-            --secondary: #aaaaaa;
+            --bg: #0C0C0C;
+            --card: #161616;
+            --accent: #C026D3;
+            --text: #FAFAFA;
+            --secondary-text: #A3A3A3;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -33,7 +33,13 @@
             font-size: 38px;
             font-weight: 800;
             letter-spacing: -1px;
-            color: #00ff9d;
+            color: var(--accent);
+        }
+
+        .subtitle {
+            color: var(--text);
+            font-size: 15px;
+            margin-top: 4px;
         }
 
         .balance {
@@ -44,6 +50,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 24px;
+            border: 1px solid rgba(192, 38, 211, 0.25);
         }
 
         .balance-amount {
@@ -63,7 +70,8 @@
             border-radius: 20px;
             padding: 20px 16px;
             text-align: center;
-            transition: transform 0.2s;
+            transition: all 0.2s;
+            border: 1px solid rgba(192, 38, 211, 0.3);
         }
 
         .card:active {
@@ -71,23 +79,12 @@
         }
 
         .tariff-card {
-            background: linear-gradient(145deg, #1a1a1a, #121212);
+            background: linear-gradient(145deg, #1C1C1C, #161616);
             border-radius: 20px;
             padding: 20px;
             margin-bottom: 20px;
             position: relative;
-        }
-
-        .popular {
-            position: absolute;
-            top: -10px;
-            right: 16px;
-            background: #00ff9d;
-            color: #000;
-            font-size: 13px;
-            font-weight: 700;
-            padding: 4px 14px;
-            border-radius: 20px;
+            border: 1px solid rgba(192, 38, 211, 0.3);
         }
 
         .tariff-name {
@@ -111,34 +108,47 @@
             border: none;
             border-radius: 16px;
             margin-top: 16px;
-        }
-
-        .btn-primary {
             background: var(--accent);
-            color: #000;
+            color: white;
         }
 
-        .btn-secondary {
-            background: #2a2a2a;
-            color: white;
+        button:active {
+            background: #A21CAF;
         }
 
         ul {
             text-align: left;
-            padding-left: 20px;
+            padding-left: 4px;
             margin: 12px 0 16px;
-            color: var(--secondary);
+            color: var(--text);
         }
 
         li {
-            margin: 7px 0;
+            margin: 8px 0;
         }
 
-        /* Модальное окно покупки токенов */
+        /* Белый цвет для всего описательного текста */
+        .restriction, .advantage {
+            color: #FAFAFA;           /* Чисто белый */
+        }
+
+        .minus { 
+            color: #FF2D55; 
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .plus { 
+            color: #22C55E; 
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        /* Модальное окно */
         .modal {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.95);
             display: none;
             align-items: center;
             justify-content: center;
@@ -146,30 +156,31 @@
         }
 
         .modal-content {
-            background: #1a1a1a;
+            background: var(--card);
             border-radius: 20px;
             padding: 24px;
             width: 90%;
             max-width: 360px;
+            border: 1px solid var(--accent);
         }
 
         .modal input {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             font-size: 18px;
-            background: #2a2a2a;
-            border: none;
+            background: #1F1F1F;
+            border: 1px solid #C026D3;
             border-radius: 12px;
-            color: white;
+            color: var(--text);
             margin: 16px 0;
             text-align: center;
         }
 
         .modal .total {
-            font-size: 20px;
-            font-weight: 600;
+            font-size: 22px;
+            font-weight: 700;
             text-align: center;
-            margin: 12px 0;
+            margin: 16px 0;
             color: var(--accent);
         }
     </style>
@@ -177,17 +188,17 @@
 <body>
     <div class="header">
         <div class="logo">SmartHelper AI</div>
-        <p style="color: #00ff9d; margin-top: 4px;">Твой личный AI-помощник</p>
+        <p class="subtitle">Твой личный AI-помощник</p>
     </div>
 
     <!-- Баланс -->
     <div class="balance">
         <div>
             <div class="balance-amount">0.00 ⚡</div>
-            <div style="color: var(--secondary);">FREE тариф</div>
+            <div style="color: var(--secondary-text);">FREE тариф</div>
         </div>
         <div>
-            <button onclick="showProfile()" class="btn-secondary" style="padding: 10px 18px; font-size: 15px;">Профиль</button>
+            <button onclick="showProfile()" style="background: var(--accent); color: white; padding: 10px 18px; font-size: 15px; border-radius: 12px;">Профиль</button>
         </div>
     </div>
 
@@ -204,22 +215,22 @@
     </div>
 
     <!-- Тарифы -->
-    <div style="font-size: 18px; color: var(--secondary); margin: 20px 0 12px;">Тарифы</div>
+    <div style="font-size: 18px; color: var(--secondary-text); margin: 20px 0 12px;">Тарифы</div>
 
     <!-- START -->
     <div class="tariff-card">
         <div class="tariff-name">START</div>
         <div class="price">590 ₽</div>
         <ul>
-            <li>• 100 текстовых запросов</li>
-            <li>• 3 анализа фото</li>
-            <li>• 1 анализ файла</li>
+            <li> 100 текстовых запросов</li>
+            <li> 3 анализа фото</li>
+            <li> 1 анализ файла</li>
         </ul>
-        <p style="color: #ff6b6b; font-size: 14px;">
-            Нет генерации изображений<br>
-            Нет генерации файлов
+        <p style="font-size: 14px; margin-top: 12px;">
+            <span class="minus">–</span> <span class="restriction">Нет генерации изображений</span><br>
+            <span class="minus">–</span> <span class="restriction">Нет генерации файлов</span>
         </p>
-        <button onclick="buySubscription('start')" class="btn-primary">Купить START</button>
+        <button onclick="buySubscription('start')">Купить START</button>
     </div>
 
     <!-- PRO -->
@@ -227,42 +238,41 @@
         <div class="tariff-name">PRO</div>
         <div class="price">990 ₽</div>
         <ul>
-            <li>• 250 текстовых запросов</li>
-            <li>• 15 анализов фото</li>
-            <li>• 5 анализов файлов</li>
-            <li>• 5 генераций изображений</li>
-            <li>• 2 генерации файлов</li>
+            <li> 250 текстовых запросов</li>
+            <li> 15 анализов фото</li>
+            <li> 5 анализов файлов</li>
+            <li> 5 генераций изображений</li>
+            <li> 2 генерации файлов</li>
         </ul>
-        <p style="color: var(--accent); font-size: 14px;">
-            Доступ ко всем основным функциям<br>
-            Приоритет ответов
+        <p style="font-size: 14px; margin-top: 12px;">
+            <span class="plus">✔</span> <span class="advantage">Доступ ко всем основным функциям</span><br>
+            <span class="plus">✔</span> <span class="advantage">Приоритет ответов</span>
         </p>
-        <button onclick="buySubscription('pro')" class="btn-primary">Купить PRO</button>
+        <button onclick="buySubscription('pro')">Купить PRO</button>
     </div>
 
     <!-- MAX -->
     <div class="tariff-card">
-        <div class="popular">Популярный</div>
         <div class="tariff-name">MAX</div>
         <div class="price">1490 ₽</div>
         <ul>
-            <li>• 400 текстовых запросов</li>
-            <li>• 25 анализов фото</li>
-            <li>• 8 анализов файлов</li>
-            <li>• 10 генераций изображений</li>
+            <li> 400 текстовых запросов</li>
+            <li> 25 анализов фото</li>
+            <li> 8 анализов файлов</li>
+            <li> 10 генераций изображений</li>
         </ul>
-        <p style="color: var(--accent); font-size: 14px;">
-            Полный доступ ко всем функциям<br>
-            Максимальный приоритет
+        <p style="font-size: 14px; margin-top: 12px;">
+            <span class="plus">✔</span> <span class="advantage">Полный доступ ко всем функциям</span><br>
+            <span class="plus">✔</span> <span class="advantage">Максимальный приоритет</span>
         </p>
-        <button onclick="buySubscription('max')" class="btn-primary">Купить MAX</button>
+        <button onclick="buySubscription('max')">Купить MAX</button>
     </div>
 
-    <!-- Модальное окно покупки токенов -->
+    <!-- Модальное окно -->
     <div class="modal" id="tokenModal">
         <div class="modal-content">
             <h2 style="text-align:center; margin-bottom: 20px;">Купить токены</h2>
-            <p style="text-align:center; color: var(--secondary); margin-bottom: 16px;">
+            <p style="text-align:center; color: var(--secondary-text); margin-bottom: 16px;">
                 Минимум 100 токенов<br>
                 100 токенов = 199 ₽
             </p>
@@ -272,7 +282,7 @@
             <div class="total" id="totalPrice">199 ₽</div>
             
             <button onclick="confirmTokenPurchase()" class="btn-primary" id="buyButton">Купить за 199 ₽</button>
-            <button onclick="closeModal()" class="btn-secondary" style="margin-top: 8px;">Отмена</button>
+            <button onclick="closeModal()" style="background: #333; color: white; margin-top: 8px;">Отмена</button>
         </div>
     </div>
 
@@ -280,7 +290,7 @@
         const tg = Telegram.WebApp;
         tg.ready();
         tg.expand();
-        tg.setHeaderColor("secondary_bg_color");
+        tg.setHeaderColor("#1C1C1C");
 
         let currentAmount = 100;
 
@@ -334,7 +344,10 @@
             tg.sendData(JSON.stringify({ action: "show_profile" }));
         }
 
-        // Закрытие модального окна при клике вне его
+        function showTariffs() {
+            window.scrollTo({ top: 300, behavior: 'smooth' });
+        }
+
         document.getElementById('tokenModal').addEventListener('click', function(e) {
             if (e.target === this) closeModal();
         });
