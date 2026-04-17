@@ -178,7 +178,7 @@
             color: var(--accent);
         }
 
-        /* Прогресс-бары */
+        /* Прогресс-бары с процентом внутри */
         .progress-bar {
             height: 12px;
             background: #333;
@@ -315,6 +315,7 @@
 
     <div style="font-size: 18px; color: var(--secondary-text); margin: 20px 0 12px;">Тарифы</div>
 
+    <!-- Тарифы -->
     <div class="tariff-card">
         <div class="tariff-name">START</div>
         <div class="price">590 ₽</div>
@@ -389,7 +390,9 @@
             </div>
 
             <div style="text-align:center;margin-bottom:24px;">
-                <div id="userNickname" style="font-size:20px;font-weight:600;">Пользователь</div>
+                <div id="userFullName" style="font-size:22px;font-weight:700;"></div>
+                <div id="userUsername" style="font-size:15px;color:var(--secondary-text);"></div>
+                <div id="userId" style="font-size:13px;color:#666;margin-top:4px;"></div>
             </div>
 
             <div class="current-tariff" id="tariffCard">
@@ -567,9 +570,17 @@
 
         function showProfile() {
             const user = tg.initDataUnsafe?.user || {};
-            const initials = user.first_name ? user.first_name[0].toUpperCase() : "Ю";
-            document.getElementById('avatar').textContent = initials;
-            document.getElementById('userNickname').textContent = currentNickname;
+
+            const firstName = user.first_name || "Пользователь";
+            const lastName = user.last_name || "";
+            const fullName = `${firstName} ${lastName}`.trim();
+            const username = user.username ? `@${user.username}` : "Нет username";
+            const userId = user.id ? `ID: ${user.id}` : "ID: —";
+
+            document.getElementById('avatar').textContent = firstName[0].toUpperCase();
+            document.getElementById('userFullName').textContent = fullName;
+            document.getElementById('userUsername').textContent = username;
+            document.getElementById('userId').textContent = userId;
 
             document.getElementById('userTariff').textContent = "Подписка не активирована";
             document.getElementById('tariffIcon').textContent = "☹️";
@@ -639,7 +650,7 @@
         function applyNameChange() {
             if (window.pendingNewName) {
                 currentNickname = window.pendingNewName;
-                document.getElementById('userNickname').textContent = currentNickname;
+                document.getElementById('userFullName').textContent = currentNickname;
                 closeConfirmNameModal();
                 setTimeout(() => {
                     document.getElementById('successText').innerHTML = `Имя успешно изменено на<br><strong>"${currentNickname}"</strong>`;
