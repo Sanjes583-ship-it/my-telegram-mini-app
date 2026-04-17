@@ -345,12 +345,28 @@
 
     <script>
         const tg = Telegram.WebApp;
+
+        function showProfile() {
+    const user = tg.initDataUnsafe?.user || {};
+    const fullName = (user.first_name || "") + " " + (user.last_name || "").trim();
+    
+    document.getElementById('userFullName').textContent = fullName || "Пользователь";
+    document.getElementById('userUsername').textContent = user.username ? "@" + user.username : "Нет username";
+    document.getElementById('userId').textContent = user.id ? "ID: " + user.id : "";
+    document.getElementById('avatar').textContent = (user.first_name || "Ю")[0].toUpperCase();
+
+    // Показываем профиль сразу с данными из Telegram
+    document.getElementById('profileModal').style.display = 'flex';
+
+    // Запрашиваем дополнительные данные из бота (через initData)
+    tg.sendData(JSON.stringify({ 
+        action: "get_profile_data", 
+        initData: tg.initData  // передаём initData для валидации
+     }));
+      }
+
         tg.ready();
         tg.expand();
-
-        function requestProfileData() {
-            tg.sendData(JSON.stringify({ action: "get_profile_data" }));
-        }
 
         function updateProfile(data) {
             // Данные пользователя из Telegram
