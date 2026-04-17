@@ -344,29 +344,64 @@
     <!-- Если нужно полные модалки — скажи, добавлю -->
 
     <script>
-        const tg = Telegram.WebApp;
+      const tg = Telegram.WebApp;
+    tg.ready();
+    tg.expand();
 
-        function showProfile() {
-    const user = tg.initDataUnsafe?.user || {};
-    const fullName = (user.first_name || "") + " " + (user.last_name || "").trim();
-    
-    document.getElementById('userFullName').textContent = fullName || "Пользователь";
-    document.getElementById('userUsername').textContent = user.username ? "@" + user.username : "Нет username";
-    document.getElementById('userId').textContent = user.id ? "ID: " + user.id : "";
-    document.getElementById('avatar').textContent = (user.first_name || "Ю")[0].toUpperCase();
+    let currentUserId = null;
 
-    // Показываем профиль сразу с данными из Telegram
-    document.getElementById('profileModal').style.display = 'flex';
+    function showProfile() {
+        const user = tg.initDataUnsafe?.user || {};
+        currentUserId = user.id;
 
-    // Запрашиваем дополнительные данные из бота (через initData)
-    tg.sendData(JSON.stringify({ 
-        action: "get_profile_data", 
-        initData: tg.initData  // передаём initData для валидации
-     }));
-      }
+        const fullName = (user.first_name || "") + " " + (user.last_name || "").trim();
+        
+        document.getElementById('userFullName').textContent = fullName || "Пользователь";
+        document.getElementById('userUsername').textContent = user.username ? "@" + user.username : "Нет username";
+        document.getElementById('userId').textContent = user.id ? "ID: " + user.id : "";
+        document.getElementById('avatar').textContent = (user.first_name || "Ю")[0].toUpperCase();
 
-        tg.ready();
-        tg.expand();
+        document.getElementById('profileModal').style.display = 'flex';
+
+        // Запрашиваем данные из бота
+        fetchProfileFromBot();
+    }
+
+    async function fetchProfileFromBot() {
+        if (!currentUserId) return;
+
+        try {
+            // Отправляем запрос через sendData (на всякий случай) + fallback
+            tg.sendData(JSON.stringify({ action: "get_profile_data" }));
+
+            // Показываем "Загрузка..." пока ждём
+            document.getElementById('userTariff').textContent = "Загрузка...";
+            
+            // Здесь можно добавить простой polling или ждать ответа от бота
+            // Пока используем тестовые данные для проверки
+            setTimeout(() => {
+                const testData = {
+                    tariff: "FREE",
+                    tokens: 124,
+                    text_requests: 85,
+                    photo_analysis: 2,
+                    file_analysis: 0,
+                    image_gen: 0,
+                    file_gen: 0
+                };
+                updateProfile(testData);
+            }, 800);
+
+        } catch (e) {
+            console.error("Ошибка запроса профиля", e);
+        }
+    }
+
+    function updateProfile(data) {
+        document.getElementById('userTariff').textContent = data.tariff || "FREE";
+        document.getElementById('tariffIcon').textContent = data.tariff === "MAX" ? "🔥" : data.tariff === "PRO" ? "💎" : "⭐";
+
+        document.getElementById('userTokens').textContent = (data.tokens || 0) + " ⚡";
 
         function updateProfile(data) {
             // Данные пользователя из Telegram
