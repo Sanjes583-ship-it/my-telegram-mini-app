@@ -130,7 +130,7 @@
 
         .restriction, .advantage { color: #FAFAFA; }
 
-        /* Модальные окна */
+        /* Модальные окна с прокруткой */
         .modal {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -144,10 +144,13 @@
         .modal-content {
             background: var(--card);
             border-radius: 20px;
-            padding: 32px 24px;
             width: 92%;
+            max-width: 440px;
+            max-height: 92vh;
+            overflow-y: auto;
             border: 1px solid var(--accent);
             animation: slideUp 0.3s ease;
+            padding: 32px 24px;
         }
 
         @keyframes slideUp {
@@ -175,7 +178,7 @@
             color: var(--accent);
         }
 
-        /* Прогресс-бары с процентом внутри */
+        /* Прогресс-бары */
         .progress-bar {
             height: 12px;
             background: #333;
@@ -200,7 +203,6 @@
             font-weight: 700;
             color: white;
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-            pointer-events: none;
         }
 
         .avatar-container {
@@ -313,7 +315,6 @@
 
     <div style="font-size: 18px; color: var(--secondary-text); margin: 20px 0 12px;">Тарифы</div>
 
-    <!-- Тарифы -->
     <div class="tariff-card">
         <div class="tariff-name">START</div>
         <div class="price">590 ₽</div>
