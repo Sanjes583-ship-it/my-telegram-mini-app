@@ -26,7 +26,7 @@
 
         .header {
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
 
         .logo {
@@ -39,7 +39,7 @@
         .subtitle {
             color: var(--text);
             font-size: 15px;
-            margin-top: 4px;
+            margin-top: 6px;
         }
 
         .balance {
@@ -83,7 +83,6 @@
             border-radius: 20px;
             padding: 20px;
             margin-bottom: 20px;
-            position: relative;
             border: 1px solid rgba(192, 38, 211, 0.3);
         }
 
@@ -110,41 +109,28 @@
             margin-top: 16px;
             background: var(--accent);
             color: white;
+            transition: all 0.2s;
         }
 
         button:active {
             background: #A21CAF;
+            transform: scale(0.95);
         }
 
         ul {
             text-align: left;
             padding-left: 4px;
             margin: 12px 0 16px;
-            color: var(--text);
         }
 
-        li {
-            margin: 8px 0;
-        }
+        li { margin: 8px 0; }
 
-        /* Белый цвет для всего описательного текста */
-        .restriction, .advantage {
-            color: #FAFAFA;           /* Чисто белый */
-        }
+        .minus { color: #FF2D55; font-weight: bold; margin-right: 8px; }
+        .plus { color: #22C55E; font-weight: bold; margin-right: 8px; }
 
-        .minus { 
-            color: #FF2D55; 
-            font-weight: bold;
-            margin-right: 8px;
-        }
+        .restriction, .advantage { color: #FAFAFA; }
 
-        .plus { 
-            color: #22C55E; 
-            font-weight: bold;
-            margin-right: 8px;
-        }
-
-        /* Модальное окно */
+        /* Модальные окна */
         .modal {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -158,30 +144,143 @@
         .modal-content {
             background: var(--card);
             border-radius: 20px;
-            padding: 24px;
-            width: 90%;
-            max-width: 360px;
+            padding: 32px 24px;
+            width: 92%;
             border: 1px solid var(--accent);
+            animation: slideUp 0.3s ease;
         }
 
-        .modal input {
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        input {
             width: 100%;
-            padding: 16px;
-            font-size: 18px;
+            padding: 20px;
+            font-size: 24px;
             background: #1F1F1F;
-            border: 1px solid #C026D3;
-            border-radius: 12px;
+            border: 2px solid #C026D3;
+            border-radius: 16px;
             color: var(--text);
-            margin: 16px 0;
             text-align: center;
+            margin-bottom: 24px;
         }
 
-        .modal .total {
-            font-size: 22px;
+        .total {
+            font-size: 26px;
             font-weight: 700;
             text-align: center;
-            margin: 16px 0;
+            margin: 20px 0 28px 0;
             color: var(--accent);
+        }
+
+        /* Прогресс-бары с процентом внутри */
+        .progress-bar {
+            height: 12px;
+            background: #333;
+            border-radius: 9999px;
+            margin-top: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.6s ease, background 0.6s ease;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            pointer-events: none;
+        }
+
+        .avatar-container {
+            position: relative;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background: var(--accent);
+            color: white;
+            font-size: 32px;
+            font-weight: 700;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            border: 3px solid rgba(192, 38, 211, 0.3);
+        }
+
+        .edit-btn {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .current-tariff {
+            background: linear-gradient(135deg, rgba(192, 38, 211, 0.2), rgba(192, 38, 211, 0.05));
+            border: 2px solid var(--accent);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .tariff-icon {
+            font-size: 42px;
+            margin-bottom: 8px;
+        }
+
+        .profile-item {
+            margin: 18px 0;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #333;
+        }
+
+        .profile-item:last-child {
+            border-bottom: none;
+        }
+
+        .profile-label {
+            font-size: 15px;
+            color: var(--secondary-text);
+        }
+
+        .profile-value {
+            font-size: 19px;
+            font-weight: 600;
+            color: var(--text);
+            margin-top: 4px;
+        }
+
+        .action-buttons {
+            margin-top: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
     </style>
 </head>
@@ -191,10 +290,9 @@
         <p class="subtitle">Твой личный AI-помощник</p>
     </div>
 
-    <!-- Баланс -->
     <div class="balance">
         <div>
-            <div class="balance-amount">0.00 ⚡</div>
+            <div class="balance-amount">0 ⚡</div>
             <div style="color: var(--secondary-text);">FREE тариф</div>
         </div>
         <div>
@@ -202,7 +300,6 @@
         </div>
     </div>
 
-    <!-- Быстрые действия -->
     <div class="grid">
         <div class="card" onclick="buyTokens()">
             <div style="font-size: 36px; margin-bottom: 8px;">⚡</div>
@@ -214,17 +311,16 @@
         </div>
     </div>
 
-    <!-- Тарифы -->
     <div style="font-size: 18px; color: var(--secondary-text); margin: 20px 0 12px;">Тарифы</div>
 
-    <!-- START -->
+    <!-- Тарифы -->
     <div class="tariff-card">
         <div class="tariff-name">START</div>
         <div class="price">590 ₽</div>
         <ul>
-            <li> 100 текстовых запросов</li>
-            <li> 3 анализа фото</li>
-            <li> 1 анализ файла</li>
+            <li>100 текстовых запросов</li>
+            <li>3 анализа фото</li>
+            <li>1 анализ файла</li>
         </ul>
         <p style="font-size: 14px; margin-top: 12px;">
             <span class="minus">–</span> <span class="restriction">Нет генерации изображений</span><br>
@@ -233,16 +329,15 @@
         <button onclick="buySubscription('start')">Купить START</button>
     </div>
 
-    <!-- PRO -->
     <div class="tariff-card">
         <div class="tariff-name">PRO</div>
         <div class="price">990 ₽</div>
         <ul>
-            <li> 250 текстовых запросов</li>
-            <li> 15 анализов фото</li>
-            <li> 5 анализов файлов</li>
-            <li> 5 генераций изображений</li>
-            <li> 2 генерации файлов</li>
+            <li>250 текстовых запросов</li>
+            <li>15 анализов фото</li>
+            <li>5 анализов файлов</li>
+            <li>5 генераций изображений</li>
+            <li>2 генерации файлов</li>
         </ul>
         <p style="font-size: 14px; margin-top: 12px;">
             <span class="plus">✔</span> <span class="advantage">Доступ ко всем основным функциям</span><br>
@@ -251,15 +346,14 @@
         <button onclick="buySubscription('pro')">Купить PRO</button>
     </div>
 
-    <!-- MAX -->
     <div class="tariff-card">
         <div class="tariff-name">MAX</div>
         <div class="price">1490 ₽</div>
         <ul>
-            <li> 400 текстовых запросов</li>
-            <li> 25 анализов фото</li>
-            <li> 8 анализов файлов</li>
-            <li> 10 генераций изображений</li>
+            <li>400 текстовых запросов</li>
+            <li>25 анализов фото</li>
+            <li>8 анализов файлов</li>
+            <li>10 генераций изображений</li>
         </ul>
         <p style="font-size: 14px; margin-top: 12px;">
             <span class="plus">✔</span> <span class="advantage">Полный доступ ко всем функциям</span><br>
@@ -268,21 +362,166 @@
         <button onclick="buySubscription('max')">Купить MAX</button>
     </div>
 
-    <!-- Модальное окно -->
+    <!-- Окно покупки токенов -->
     <div class="modal" id="tokenModal">
         <div class="modal-content">
-            <h2 style="text-align:center; margin-bottom: 20px;">Купить токены</h2>
-            <p style="text-align:center; color: var(--secondary-text); margin-bottom: 16px;">
+            <h2>Купить токены</h2>
+            <p style="text-align:center; color: var(--secondary-text); margin-bottom: 24px;">
                 Минимум 100 токенов<br>
                 100 токенов = 199 ₽
             </p>
-            
             <input type="number" id="tokenAmount" placeholder="Количество токенов" min="100" value="100" oninput="calculateTotal()">
-            
             <div class="total" id="totalPrice">199 ₽</div>
+            <button onclick="confirmTokenPurchase()" id="buyButton">Купить за 199 ₽</button>
+            <button onclick="closeModal()" style="margin-top:12px;background:#333;color:white;">Отмена</button>
+        </div>
+    </div>
+
+    <!-- Окно профиля -->
+    <div class="modal" id="profileModal">
+        <div class="modal-content">
+            <h2 style="text-align:center;margin-bottom:20px;">Профиль</h2>
+
+            <div class="avatar-container">
+                <div id="avatar" class="avatar">Ю</div>
+                <button onclick="openAccountManagement()" class="edit-btn">🖊</button>
+            </div>
+
+            <div style="text-align:center;margin-bottom:24px;">
+                <div id="userNickname" style="font-size:20px;font-weight:600;">Пользователь</div>
+            </div>
+
+            <div class="current-tariff" id="tariffCard">
+                <div class="tariff-icon" id="tariffIcon">⭐</div>
+                <div class="profile-label">Активная подписка</div>
+                <div class="profile-value" id="userTariff">Подписка не активирована</div>
+                <div id="expireDate" style="margin-top:8px;font-size:14px;color:var(--secondary-text);"></div>
+            </div>
+
+            <div class="profile-item">
+                <div class="profile-label">Токены на аккаунте</div>
+                <div class="profile-value" id="userTokens">124 ⚡</div>
+            </div>
+
+            <div class="profile-item">
+                <div class="profile-label">Текстовые запросы</div>
+                <div class="profile-value" id="textRequests">85 / 100</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="textProgress" style="width:85%; background:#22C55E;"></div>
+                    <div class="progress-text" id="textPercent">85%</div>
+                </div>
+            </div>
             
-            <button onclick="confirmTokenPurchase()" class="btn-primary" id="buyButton">Купить за 199 ₽</button>
-            <button onclick="closeModal()" style="background: #333; color: white; margin-top: 8px;">Отмена</button>
+            <div class="profile-item">
+                <div class="profile-label">Анализы фото</div>
+                <div class="profile-value" id="photoAnalysis">2 / 3</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="photoProgress" style="width:67%; background:#EAB308;"></div>
+                    <div class="progress-text" id="photoPercent">67%</div>
+                </div>
+            </div>
+            
+            <div class="profile-item">
+                <div class="profile-label">Анализы файлов</div>
+                <div class="profile-value" id="fileAnalysis">0 / 1</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="fileProgress" style="width:0%; background:#EF4444;"></div>
+                    <div class="progress-text" id="filePercent">0%</div>
+                </div>
+            </div>
+            
+            <div class="profile-item">
+                <div class="profile-label">Генерация изображений</div>
+                <div class="profile-value" id="imageGen">0 / 0</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="imageProgress" style="width:0%; background:#EF4444;"></div>
+                    <div class="progress-text" id="imagePercent">0%</div>
+                </div>
+            </div>
+            
+            <div class="profile-item">
+                <div class="profile-label">Генерация файлов</div>
+                <div class="profile-value" id="fileGen">0 / 0</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="fileGenProgress" style="width:0%; background:#EF4444;"></div>
+                    <div class="progress-text" id="fileGenPercent">0%</div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button onclick="showHistoryModal()">История операций</button>
+                <button onclick="inviteFriends()">Пригласить друзей</button>
+            </div>
+
+            <button onclick="closeProfileModal()" style="margin-top:16px;background:#333;color:white;">Закрыть</button>
+        </div>
+    </div>
+
+    <!-- Управление аккаунтом -->
+    <div class="modal" id="accountManagementModal">
+        <div class="modal-content">
+            <h2 style="text-align:center;margin-bottom:24px;">Управление аккаунтом</h2>
+            <button onclick="editName()" style="margin-bottom:12px;">Редактировать имя</button>
+            <button onclick="showChangeAccountModal()" style="margin-bottom:12px;">Сменить аккаунт</button>
+            <button onclick="showLogoutModal()" style="background:#991B1B;">Выйти из аккаунта</button>
+            <button onclick="closeAccountManagement()" style="margin-top:20px;background:#333;color:white;">Назад</button>
+        </div>
+    </div>
+
+    <!-- Редактирование имени -->
+    <div class="modal" id="editNameModal">
+        <div class="modal-content">
+            <h2 style="text-align:center;margin-bottom:20px;">Новое имя</h2>
+            <input type="text" id="newNameInput" placeholder="Введите новое имя">
+            <button onclick="saveNewName()">Сохранить</button>
+            <button onclick="closeEditNameModal()" style="margin-top:12px;background:#333;color:white;">Отмена</button>
+        </div>
+    </div>
+
+    <!-- Подтверждение смены имени -->
+    <div class="modal" id="confirmNameModal">
+        <div class="modal-content">
+            <h2 style="text-align:center;margin-bottom:16px;">Подтверждение</h2>
+            <p style="text-align:center;margin-bottom:24px;" id="confirmText"></p>
+            <button onclick="applyNameChange()" style="margin-bottom:12px;">Сменить</button>
+            <button onclick="closeConfirmNameModal()" style="background:#333;color:white;">Отмена</button>
+        </div>
+    </div>
+
+    <!-- Успешная смена имени -->
+    <div class="modal" id="successNameModal">
+        <div class="modal-content">
+            <h2 style="text-align:center;margin-bottom:16px;">Готово ✓</h2>
+            <p style="text-align:center;margin-bottom:24px;" id="successText"></p>
+            <button onclick="closeSuccessNameModal()">ОК</button>
+        </div>
+    </div>
+
+    <!-- История операций -->
+    <div class="modal" id="historyModal">
+        <div class="modal-content">
+            <h2 style="text-align:center;margin-bottom:20px;">История операций</h2>
+            <p style="text-align:center;color:var(--secondary-text);">Пока здесь ничего нет.<br>Здесь будут отображаться все ваши покупки и действия.</p>
+            <button onclick="closeHistoryModal()" style="margin-top:20px;background:#333;color:white;">Закрыть</button>
+        </div>
+    </div>
+
+    <!-- Сменить аккаунт -->
+    <div class="modal" id="changeAccountModal">
+        <div class="modal-content">
+            <h2 style="text-align:center;margin-bottom:20px;">Сменить аккаунт</h2>
+            <p style="text-align:center;color:var(--secondary-text);">Эта функция пока в разработке.</p>
+            <button onclick="closeChangeAccountModal()" style="margin-top:20px;background:#333;color:white;">Закрыть</button>
+        </div>
+    </div>
+
+    <!-- Выход из аккаунта -->
+    <div class="modal" id="logoutModal">
+        <div class="modal-content">
+            <h2 style="text-align:center;margin-bottom:16px;">Выйти из аккаунта?</h2>
+            <p style="text-align:center;margin-bottom:24px;color:var(--secondary-text);">Вы уверены, что хотите выйти?</p>
+            <button onclick="performLogout()" style="margin-bottom:12px;background:#991B1B;">Выйти</button>
+            <button onclick="closeLogoutModal()" style="background:#333;color:white;">Отмена</button>
         </div>
     </div>
 
@@ -290,17 +529,13 @@
         const tg = Telegram.WebApp;
         tg.ready();
         tg.expand();
-        tg.setHeaderColor("#1C1C1C");
 
-        let currentAmount = 100;
+        let currentNickname = "Пользователь";
 
         function calculateTotal() {
             let amount = parseInt(document.getElementById('tokenAmount').value) || 100;
             if (amount < 100) amount = 100;
-            
-            currentAmount = amount;
             const total = Math.ceil((amount / 100) * 199);
-            
             document.getElementById('totalPrice').textContent = `${total} ₽`;
             document.getElementById('buyButton').textContent = `Купить за ${total} ₽`;
         }
@@ -315,15 +550,9 @@
         }
 
         function confirmTokenPurchase() {
-            const amount = currentAmount;
+            const amount = parseInt(document.getElementById('tokenAmount').value) || 100;
             const price = Math.ceil((amount / 100) * 199);
-            
-            tg.sendData(JSON.stringify({
-                action: "buy_tokens",
-                amount: amount,
-                price: price
-            }));
-            
+            tg.sendData(JSON.stringify({ action: "buy_tokens", amount, price }));
             closeModal();
         }
 
@@ -332,24 +561,148 @@
             if (tariff === 'start') price = 590;
             else if (tariff === 'pro') price = 990;
             else if (tariff === 'max') price = 1490;
-
-            tg.sendData(JSON.stringify({
-                action: "buy_subscription",
-                tariff: tariff,
-                price: price
-            }));
+            tg.sendData(JSON.stringify({ action: "buy_subscription", tariff, price }));
         }
 
         function showProfile() {
-            tg.sendData(JSON.stringify({ action: "show_profile" }));
+            const user = tg.initDataUnsafe?.user || {};
+            const initials = user.first_name ? user.first_name[0].toUpperCase() : "Ю";
+            document.getElementById('avatar').textContent = initials;
+            document.getElementById('userNickname').textContent = currentNickname;
+
+            document.getElementById('userTariff').textContent = "Подписка не активирована";
+            document.getElementById('tariffIcon').textContent = "☹️";
+
+            document.getElementById('userTokens').textContent = "124 ⚡";
+            document.getElementById('textRequests').textContent = "85 / 100";
+            document.getElementById('photoAnalysis').textContent = "2 / 3";
+            document.getElementById('fileAnalysis').textContent = "0 / 1";
+            document.getElementById('imageGen').textContent = "0 / 0";
+            document.getElementById('fileGen').textContent = "0 / 0";
+
+            document.getElementById('textProgress').style.width = "85%";
+            document.getElementById('photoProgress').style.width = "67%";
+            document.getElementById('fileProgress').style.width = "0%";
+            document.getElementById('imageProgress').style.width = "0%";
+            document.getElementById('fileGenProgress').style.width = "0%";
+
+            document.getElementById('textPercent').textContent = "85%";
+            document.getElementById('photoPercent').textContent = "67%";
+            document.getElementById('filePercent').textContent = "0%";
+            document.getElementById('imagePercent').textContent = "0%";
+            document.getElementById('fileGenPercent').textContent = "0%";
+
+            document.getElementById('profileModal').style.display = 'flex';
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profileModal').style.display = 'none';
+        }
+
+        function openAccountManagement() {
+            closeProfileModal();
+            setTimeout(() => document.getElementById('accountManagementModal').style.display = 'flex', 300);
+        }
+
+        function closeAccountManagement() {
+            document.getElementById('accountManagementModal').style.display = 'none';
+        }
+
+        function editName() {
+            closeAccountManagement();
+            setTimeout(() => {
+                document.getElementById('newNameInput').value = currentNickname;
+                document.getElementById('editNameModal').style.display = 'flex';
+            }, 300);
+        }
+
+        function closeEditNameModal() {
+            document.getElementById('editNameModal').style.display = 'none';
+        }
+
+        function saveNewName() {
+            const newName = document.getElementById('newNameInput').value.trim();
+            if (!newName) return;
+            closeEditNameModal();
+            setTimeout(() => {
+                document.getElementById('confirmText').innerHTML = `Сменить имя профиля на<br><strong>"${newName}"</strong>?`;
+                document.getElementById('confirmNameModal').style.display = 'flex';
+                window.pendingNewName = newName;
+            }, 300);
+        }
+
+        function closeConfirmNameModal() {
+            document.getElementById('confirmNameModal').style.display = 'none';
+        }
+
+        function applyNameChange() {
+            if (window.pendingNewName) {
+                currentNickname = window.pendingNewName;
+                document.getElementById('userNickname').textContent = currentNickname;
+                closeConfirmNameModal();
+                setTimeout(() => {
+                    document.getElementById('successText').innerHTML = `Имя успешно изменено на<br><strong>"${currentNickname}"</strong>`;
+                    document.getElementById('successNameModal').style.display = 'flex';
+                }, 300);
+            }
+        }
+
+        function closeSuccessNameModal() {
+            document.getElementById('successNameModal').style.display = 'none';
+        }
+
+        function showHistoryModal() {
+            closeProfileModal();
+            setTimeout(() => document.getElementById('historyModal').style.display = 'flex', 300);
+        }
+        function closeHistoryModal() {
+            document.getElementById('historyModal').style.display = 'none';
+        }
+
+        function showChangeAccountModal() {
+            closeProfileModal();
+            setTimeout(() => document.getElementById('changeAccountModal').style.display = 'flex', 300);
+        }
+        function closeChangeAccountModal() {
+            document.getElementById('changeAccountModal').style.display = 'none';
+        }
+
+        function showLogoutModal() {
+            closeProfileModal();
+            setTimeout(() => document.getElementById('logoutModal').style.display = 'flex', 300);
+        }
+        function closeLogoutModal() {
+            document.getElementById('logoutModal').style.display = 'none';
+        }
+
+        function performLogout() {
+            closeLogoutModal();
+            alert("Вы успешно вышли из аккаунта.");
+        }
+
+        function buyTokensFromProfile() {
+            closeProfileModal();
+            setTimeout(buyTokens, 300);
+        }
+
+        function showTariffsFromProfile() {
+            closeProfileModal();
+            setTimeout(() => window.scrollTo({ top: 300, behavior: 'smooth' }), 300);
+        }
+
+        function inviteFriends() {
+            alert("Пригласить друзей\n\nРеферальная ссылка будет здесь.");
         }
 
         function showTariffs() {
             window.scrollTo({ top: 300, behavior: 'smooth' });
         }
 
-        document.getElementById('tokenModal').addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
+        // Закрытие по фону
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', e => {
+                if (e.target === modal) modal.style.display = 'none';
+            });
         });
     </script>
 </body>
